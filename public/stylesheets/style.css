@@ -1,0 +1,91 @@
+body {
+  padding: 35px 50px 10px 50px;
+    margin-top: 0px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+.messageContainer{
+  max-height: 500px;
+  overflow: visible;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  background-color: lightcyan;
+}
+.messageInput{
+  width:85%;
+    margin: 1% 3% 0px 0px;
+}
+.messageButton{
+  width: 10%;
+    margin: 1% 0px 0px 0px;
+}
+.message{
+    padding: 5px;
+    border-radius: 3px;
+    background-color: lightgreen;
+    margin-bottom: 5px;
+}
+a {
+  color: #00B7FF;
+}
+
+
+.formFieldLabel{
+    text-align: right;
+    position: relative;
+}
+.navigation{
+    background-color: azure;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    left:0;
+    padding: 5px 5px 5px 58px;
+}
+nav a{
+    display: inline-block;
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    padding: 5px;
+    max-width: 150px;
+    background-color: limegreen;
+    font-size: 16px;
+}
+nav a:hover{
+    background: lightgreen;
+}
+
+form label{
+    display: block;
+    float:left;
+    margin-top: 5px
+}
+.formContainer{
+    padding: 8px 12px 8px 8px;
+    margin-top: 5px;
+    max-width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 5px;
+    border: aquamarine;
+    border-style: solid;
+    border-width: 1px;
+}
+.formContainer input{
+    width:100%;
+    margin-top: 2px;
+}
+.formContainer button{
+    display: block;
+    width:110px;
+    margin: 8px auto;
+}
+.formContainer a{
+    margin-top: 5px;
+    display: block;
+    text-align: center;
+}
+.errotText{
+    color: red;
+    text-align: center;
+}

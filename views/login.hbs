@@ -1,0 +1,14 @@
+<div class="formContainer">
+    {{#if errorFlash}}
+        <p class="errotText"> {{{ errorFlash }}}</p>
+    {{/if}}
+
+    <form action="/login" method="post">
+        <label for="login">Введите ваше имя</label>
+        <input id="login" name="login" type="text">
+        <label for="password">Введите ваш пароль</label>
+        <input type="password" id="password" name = "password">
+        <button>Войти</button>
+    </form>
+    <a href="/register">Зарегистрироваться</a>
+</div>

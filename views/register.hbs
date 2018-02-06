@@ -1,0 +1,16 @@
+{{#if errorFlash}}
+    <p class="errotText"> {{{ errorFlash }}}</p>
+{{/if}}
+<div class="formContainer">
+    <form action="/register" method="post">
+        <label for="login">Введите ваше имя</label>
+        <input id="login" type="text" name="login" required>
+        <label for="login">Введите ваш email</label>
+        <input id="email" type="email" name="email" required>
+        <label for="password">Введите ваш пароль</label>
+        <input type="password" id="password" name="password" required>
+        <label for="passwordConfirm" > Подтверждение пароля</label>
+        <input type = "password" id = "passwordConfirm" name = "passwordConfirm" required >
+        <button>Регистрация</button>
+    </form>
+</div>
