@@ -1,0 +1,33 @@
+<nav class="navigation">
+    <a href="/">Чат</a>
+    <a href="/profile">Профиль</a>
+</nav>
+<p align="center">Изменение учетных данных</p>
+<div  class="formContainer">
+    {{#if message}}
+        <p> {{{ message }}}</p>
+    {{/if}}
+    <form method="post" action="/profile">
+        <label for="login" class="formFieldLabel"> Логин</label>
+        <input type = "text" id="login" name = "login" required value = {{login}}>
+        <label for="email" class="formFieldLabel"> Email</label>
+        <input type = "email" id = "email" name = "email" required value = {{email}}>
+        <button>Сохранить</button>
+    </form>
+</div>
+
+<p align="center">Смена пароля</p>
+<div class="formContainer">
+    {{#if passwordMessage}}
+        <p> {{{ passwordMessage }}}</p>
+    {{/if}}
+    <form method="post" action="/password">
+        <label for="oldPassword" > Старый пароль</label>
+        <input type = "password" id="oldPassword" name = "oldPassword" required>
+        <label for="newPassword" > Новый пароль</label>
+        <input type = "password" id = "newPassword" name = "newPassword" required >
+        <label for="newPasswordConfirm" > Подтверждение пароля</label>
+        <input type = "password" id = "newPasswordConfirm" name = "newPasswordConfirm" required >
+        <button>Сохранить</button>
+    </form>
+</div>
