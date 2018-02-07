@@ -11,8 +11,7 @@ var authorized = function(req, res, next){
 
 /* GET users listing. */
 router.use(authorized);
-router.get('/', function(req, res, next) {
-    //TODO:выводить имя пользователя красиво
+router.get('/', function(req, res) {
     res.render('chat', { userName: req.user.name });
 });
 router.get('/profile', function(req, res){
