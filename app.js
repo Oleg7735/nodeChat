@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
+var connectPg = require('connect-pg-simple')(session);
 var flash = require('express-flash');
 
 var bodyParser = require('body-parser');
@@ -24,8 +25,22 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-//TODO: подключить хранение сессий в базе данных с помощью pg-connect ?
+
+var dbConnectionString;
+switch(app.get('env')){
+    case 'development': {
+        dbConnectionString = 'postgresql://postgres:753114@localhost/testChat';
+        break;
+    }
+    case 'production':{
+        dbConnectionString = process.env.DATABASE_URL;
+        break;
+    }
+}
 var sessionMiddleware = session({
+    store: new connectPg({
+        conString: dbConnectionString
+    }),
     secret: credentials.sesionSecret,
     resave: true,
     saveUninitialized:true
@@ -34,6 +49,8 @@ app.use(sessionMiddleware);
 app.use(flash());
 
 require('./lib/passportsetup')(app);
+
+require('./lib/database').init(dbConnectionString);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
