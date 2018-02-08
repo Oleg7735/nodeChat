@@ -4,7 +4,7 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 .messageContainer{
-  max-height: 500px;
+  height: 500px;
   overflow: visible;
   overflow-x: hidden;
   overflow-y: scroll;
