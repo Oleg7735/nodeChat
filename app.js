@@ -7,6 +7,9 @@ var session = require('express-session');
 var connectPg = require('connect-pg-simple')(session);
 var flash = require('express-flash');
 
+var aws = require('aws-sdk');
+require('./lib/multers3-upload').init(new aws.S3());
+
 var bodyParser = require('body-parser');
 
 var credentials = require('./credentials');
@@ -29,7 +32,15 @@ app.use(cookieParser());
 var dbConnectionString;
 switch(app.get('env')){
     case 'development': {
-        dbConnectionString = 'postgresql://postgres:753114@localhost/testChat';
+        /*const cn = {
+            host: 'localhost',
+            port: 5432,
+            database: 'testChat',
+            user: 'postgres',
+            password: '753114'
+        };*/
+
+        dbConnectionString = 'postgresql://postgres:753114@192.168.0.103/testChat';//'postgresql://postgres:753114@localhost/testChat';
         break;
     }
     case 'production':{
