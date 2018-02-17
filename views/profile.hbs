@@ -2,8 +2,17 @@
     <a href="/">Чат</a>
     <a href="/profile">Профиль</a>
     <a href="/logout" name="logout">Выйти</a>
-
 </nav>
+<div class="profileImageContainer">
+    <img src="{{avatarPath}}" id="avatar" name="avatar">
+    {{#if imageErrorMessage}}
+        <p class="errorText"> {{{ imageErrorMessage }}}</p>
+    {{/if}}
+    <form method="post" action="/avatar" enctype="multipart/form-data">
+        <input type="file" id="newAvatar" accept="image/*" name="avatar"/>
+        <input type="submit" value="Сохранить"/>
+    </form>
+</div>
 <p align="center">Изменение учетных данных</p>
 <div  class="formContainer">
     {{#if message}}
@@ -33,3 +42,5 @@
         <button>Сохранить</button>
     </form>
 </div>
+
+<script src="javascripts/profile.js"></script>
