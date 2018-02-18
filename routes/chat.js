@@ -2,24 +2,23 @@ var express = require('express');
 var router = express.Router();
 var db = require('../lib/database');
 var bCrypt = require('../lib/bCryptFunctions');
-var config = require('../config');
+
 var upload = require('../lib/multers3-upload').getUpload();
+var s3util = require('../lib/S3utils');
 var authorized = function(req, res, next){
     if(req.isAuthenticated()){
         return next();
     }
     res.redirect('login');
 };
-var createS3ObjectUrl = function(objectName){
-    return 'http://'+config.bucketName+'.s3.amazonaws.com/'+objectName;
-};
+
 /* GET users listing. */
 router.use(authorized);
 router.get('/', function(req, res) {
     res.render('chat', { userName: req.user.name });
 });
 router.get('/profile', function(req, res){
-    var avatar = createS3ObjectUrl(req.user.avatar);
+    var avatar = s3util.createS3ObjectUrl(req.user.avatar);
     res.render('profile', {login:req.user.name, email:req.user.email, avatarPath:avatar});
 });
 router.post('/profile', function(req, res){
@@ -28,7 +27,7 @@ router.post('/profile', function(req, res){
         name:req.body.login,
         email:req.body.email
     };
-    var avatar = createS3ObjectUrl(req.user.avatar);
+    var avatar = s3util.createS3ObjectUrl(req.user.avatar);
     db.updateUserWithoutPassword(user, function(){
             res.render('profile', {login:req.body.login, email:req.body.email, avatarPath:avatar, message:'Профль успешно обновлен.'});
     },
@@ -41,7 +40,7 @@ router.post('/profile', function(req, res){
 
 });
 router.post('/password', function(req, res){
-    var avatar = createS3ObjectUrl(req.user.avatar);
+    var avatar = s3util.createS3ObjectUrl(req.user.avatar);
     var oldpassword = req.body.oldPassword;
     var newPassword = req.body.newPassword;
     var newPasswordConfirm = req.body.newPasswordConfirm;
@@ -69,7 +68,7 @@ router.post('/password', function(req, res){
 
 });
 router.post('/avatar', upload.single('avatar'), function (req, res) {
-    var avatar = createS3ObjectUrl(req.user.avatar);
+    var avatar = s3util.createS3ObjectUrl(req.user.avatar);
     console.log('avatar posted');
     res.render('profile', {login:req.user.name, email:req.user.email, avatarPath:avatar});
     //TODO:Ограничивать размер файла
