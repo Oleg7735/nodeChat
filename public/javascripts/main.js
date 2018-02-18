@@ -12,7 +12,10 @@ $(document).ready(function () {
         dateString = date.toLocaleString();
         var messageDiv = $('<div></div>');
         messageDiv.addClass('message');
-        messageDiv[0].innerHTML = data.author + '<br>' + dateString + '<br>' + data.message_text;
+        var message = data.author + '<br>' + dateString + '<br>' + data.message_text;
+        messageDiv.append($('<img>', {src:data.avatar, class:'chatImage'}));
+        messageDiv.append(message);
+        //messageDiv[0].innerHTML = message;
         return messageDiv;
     };
     function sendMessage(){
