@@ -1,3 +1,4 @@
+ENV NODE_ENV production
 FROM node:8
 RUN mkdir /chat
 ADD . /chat
