@@ -45,6 +45,7 @@ switch(app.get('env')){
     }
     case 'production':{
         dbConnectionString = process.env.DATABASE_URL;
+        //'postgresql://'+process.env.RDS_USERNAME+':'+process.env.RDS_PASSWORD+'@'+process.env.RDS_HOSTNAME+':'+process.env.RDS_PORT;
         break;
     }
 }
