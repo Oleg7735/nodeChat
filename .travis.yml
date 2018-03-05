@@ -1,0 +1,25 @@
+language: node_js
+
+node_js:
+  - "8"
+
+branches:
+  only:
+  - master
+
+sudo: required
+
+services:
+  - docker
+
+deploy:
+  provider: elasticbeanstalk
+  access_key_id: $ACCESSKEYID
+  secret_access_key:
+    secure: "$SECRETACCESSKEY"
+  region: "us-east-2"
+  app: "node-chat_ci"
+  env: "nodeChatCi-env"
+  bucket_name: "elasticbeanstalk-us-east-2-682614058553"
+  on:
+    branch: master
