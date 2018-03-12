@@ -1,5 +1,7 @@
 module.exports = {
     defaultAvatarName: 'images/default.jpg',
     bucketName: 'node-test-chat',
-    imageDirName: 'images'
+    imageDirName: 'images',
+    videoDirName: 'video',
+    tempVideoDirName: 'video-temp'
 };

@@ -4,6 +4,7 @@ $(document).ready(function () {
     var numberOfLoadedMessages = 0;
     var $mContainer = $('.messageContainer');
     var $sendButton = $('#mainButton');
+    var $attachButton = $('#attach');
     //Формирование сообщения для вывода на экран
     var formateMessage = function(data){
         var date;
@@ -15,6 +16,11 @@ $(document).ready(function () {
         var message = data.author + '<br>' + dateString + '<br>' + data.message_text;
         messageDiv.append($('<img>', {src:data.avatar, class:'chatImage'}));
         messageDiv.append(message);
+        if(data.attach){
+            var $video = $('<video></video>', {controls:"controls"});
+            $video.append($('<source>', {src:data.attach, type:"video/mp4; codecs=\"avc1.42E01E, mp4a.40.2\""}));
+            messageDiv.append($video);
+        }
         //messageDiv[0].innerHTML = message;
         return messageDiv;
     };
@@ -29,6 +35,14 @@ $(document).ready(function () {
         if($mContainer[0].scrollTop === 0){
             socket.emit('load more messages', {offset: numberOfLoadedMessages});
         }
+    };
+    $attachButton[0].onchange = function (ev) {
+        //console.log( $attachButton[0].files[0]);
+        var formData = new FormData();
+        formData.append("video", $attachButton[0].files[0]);
+        var request = new XMLHttpRequest();
+        request.open("POST", "/video");
+        request.send(formData);
     };
     //Отправка сообщения по нажатию Enter
     window.onkeydown = function(key){
