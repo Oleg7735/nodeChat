@@ -47,7 +47,6 @@ switch(app.get('env')){
         //for Heroku
         //dbConnectionString = process.env.DATABASE_URL;
         dbConnectionString = 'postgresql://'+process.env.RDS_USERNAME+':'+process.env.RDS_PASSWORD+'@'+process.env.RDS_HOSTNAME+':'+process.env.RDS_PORT+'/'+process.env.RDS_DB_NAME;
-        //dbConnectionString = 'postgresql://oltest:otW6bemnp@chatdb.co0fgmovb804.us-east-2.rds.amazonaws.com:5432/ebdb';
         break;
     }
 }

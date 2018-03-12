@@ -27,8 +27,12 @@ img[name="avatar"]{
   overflow-y: scroll;
   background-color: lightcyan;
 }
+.attachButton{
+    width: 10%;
+    margin: 1% 0px 2% 0px;
+}
 .messageInput{
-  width:85%;
+  width:75%;
     margin: 1% 3% 0px 0px;
 }
 .messageButton{
@@ -45,6 +49,10 @@ a {
   color: #00B7FF;
 }
 
+.message video{
+    max-width: 300px;
+    max-height: 200px;
+}
 
 .formFieldLabel{
     text-align: right;

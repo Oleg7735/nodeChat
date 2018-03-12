@@ -6,6 +6,11 @@
 <p> <i>Вы вошли как {{{userName}}}</i> </p>
 <div class = "messageContainer"></div>
 <div>
+    {{#if waitMessage}}
+        <p > {{{ waitMessage }}}</p>
+    {{/if}}
+<!--<label for="attach">Видео</label>-->
+<input type="file" id="attach" name="attach" class="attachButton" accept="video/*" title="Видео">
 <input type="text" class="messageInput" id = "messageText" autocomplete="off">
 <button  id="mainButton" class="messageButton">Отправить</button>
 </div>

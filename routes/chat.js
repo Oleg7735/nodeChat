@@ -2,9 +2,13 @@ var express = require('express');
 var router = express.Router();
 var db = require('../lib/database');
 var bCrypt = require('../lib/bCryptFunctions');
-
-var upload = require('../lib/multers3-upload').getUpload();
+var multers3Upload = require('../lib/multers3-upload');
+var upload = multers3Upload.getUpload();
 var s3util = require('../lib/S3utils');
+var sockets = require('../lib/sockets');
+var aws = require('aws-sdk');
+var transcoder = require('../lib/elasticTranscoder');
+var config = require('../config');
 var authorized = function(req, res, next){
     if(req.isAuthenticated()){
         return next();
@@ -27,6 +31,7 @@ router.post('/profile', function(req, res){
         name:req.body.login,
         email:req.body.email
     };
+    //пересохраняем старый
     var avatar = s3util.createS3ObjectUrl(req.user.avatar);
     db.updateUserWithoutPassword(user, function(){
             res.render('profile', {login:req.body.login, email:req.body.email, avatarPath:avatar, message:'Профль успешно обновлен.'});
@@ -73,5 +78,57 @@ router.post('/avatar', upload.single('avatar'), function (req, res) {
     res.render('profile', {login:req.user.name, email:req.user.email, avatarPath:avatar});
     //TODO:Ограничивать размер файла
 });
+//Видео загружается в s3
+router.post('/video', multers3Upload.getVideoUpload().single('video'), function (req, res) {
+    //var videoUpload = multers3Upload.getVideoUpload().single('video');
+    /*videoUpload(req, res, function (err) {
+        console.log("Failed to upload video to s3: "+err);
+    });*/
+    //var lambda  = new aws.Lambda();
+    var params = {
+        srcBucketName: config.bucketName,
+        dstBucketName: config.bucketName,
+        srcKey: req.file.key,
+        dstKey: req.file.key.replace(config.tempVideoDirName, config.videoDirName)
+    };
+    //Вызываем перекодировку загруженного видео
+    transcoder.handler(params, null, function(error, resultKey){
+        if(error === null) {
+            var message = {
+                send_time: Date.now(),
+                message_text: '',
+                attach: resultKey
+            };
+            db.addMessageWithAttach(req.user.id, message, function (err) {
+                console.log('Faild to add new message with attachment to database: ' + err);
+                res.end('error');
+            });
+            const messageToSend = {
+                author: req.user.name,
+                avatar:s3util.createS3ObjectUrl(req.user.avatar),
+                send_time: Date.now(),
+                message_text: '',
+                attach: s3util.createS3ObjectUrl(resultKey)
+            };
+            sockets.sendBroadcastMessage(messageToSend);
+            res.end('uploaded');
+        }
+        else{
+            console.log('Ошибка при попытке перекодировки видео: '+error);
+            res.end('error');
+        }
+    });
+});
+/*router.post('/test', function (req, res){
 
+    var message = {
+        author: req.user.name,
+        avatar:s3util.createS3ObjectUrl(user.avatar),
+        send_time: Date.now(),
+        message_text: '',
+        attach: s3util.createS3ObjectUrl('video/0bc4c60a162e374d22ae24d5220870c61520710036473')
+    };
+    sockets.sendBroadcastMessage(message);
+    res.end('uploaded');
+});*/
 module.exports = router;
