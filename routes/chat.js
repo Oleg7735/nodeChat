@@ -78,6 +78,7 @@ router.post('/avatar', upload.single('avatar'), function (req, res) {
     res.render('profile', {login:req.user.name, email:req.user.email, avatarPath:avatar});
     //TODO:Ограничивать размер файла
 });
+//Видео загружается в s3
 router.post('/video', multers3Upload.getVideoUpload().single('video'), function (req, res) {
     //var videoUpload = multers3Upload.getVideoUpload().single('video');
     /*videoUpload(req, res, function (err) {
@@ -90,6 +91,7 @@ router.post('/video', multers3Upload.getVideoUpload().single('video'), function 
         srcKey: req.file.key,
         dstKey: req.file.key.replace(config.tempVideoDirName, config.videoDirName)
     };
+    //Вызываем перекодировку загруженного видео
     transcoder.handler(params, null, function(error, resultKey){
         if(error === null) {
             var message = {

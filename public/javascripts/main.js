@@ -21,7 +21,6 @@ $(document).ready(function () {
             $video.append($('<source>', {src:data.attach, type:"video/mp4; codecs=\"avc1.42E01E, mp4a.40.2\""}));
             messageDiv.append($video);
         }
-        //messageDiv[0].innerHTML = message;
         return messageDiv;
     };
     function sendMessage(){
@@ -37,7 +36,6 @@ $(document).ready(function () {
         }
     };
     $attachButton[0].onchange = function (ev) {
-        //console.log( $attachButton[0].files[0]);
         var formData = new FormData();
         formData.append("video", $attachButton[0].files[0]);
         var request = new XMLHttpRequest();
